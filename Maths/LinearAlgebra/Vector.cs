@@ -20,7 +20,7 @@ namespace Maths.LinearAlgebra
 
         public Vector( double[] value)
         {
-            value.CopyTo(values, 0);
+            values = value;
         }
 
         public Vector Copy()
@@ -53,7 +53,7 @@ namespace Maths.LinearAlgebra
         public static Vector ZeroVector()
         {
             Vector result = new Vector();
-            result.values = Enumerable.Repeat<double>(0, vec.n).ToArray();
+            result.values = Enumerable.Repeat<double>(0, result.n).ToArray();
             return result;
         }
 
@@ -94,7 +94,7 @@ namespace Maths.LinearAlgebra
             Vector result = new Vector();
             for (int i = 0; i < v1.n; i++)
                 result[i] = v1[i] - v2[i];
-            return result
+            return result;
         }
     }
 }

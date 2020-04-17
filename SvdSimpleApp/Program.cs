@@ -21,7 +21,9 @@ namespace SvdSimpleApp
             PrintData(vt, 3, 3);
             Console.WriteLine("Vetor W");
             PrintData(w);*/
-            Eigendecomp eigendecomp = MatrixOperations.Eigendecomposition(new Matrix(new double[,] { { 12, -34, 51 }, { -34, 40, 31 }, { 51, 31, -10 } }), 1e-14);
+            Matrix m1 = new Matrix(new double[,] { { 12, -34, 51 }, { -34, 40, 31 }, { 51, 31, -10 } });
+            Matrix m2 = new Matrix(new double[,] { { 4, -5, 2 }, { 5, -7, 3 }, { 6, -9, 4 } });
+            Eigendecomp eigendecomp = MatrixOperations.Eigendecomposition(m2, 1e-14);
 
             Console.ReadKey();
         }

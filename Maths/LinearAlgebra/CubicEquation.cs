@@ -26,8 +26,8 @@ namespace Maths.LinearAlgebra
             List<Complex> x = new List<Complex>();
             Normalize();
             double p = - b * b / 3 + c;
-            double q = 2 * Math.Pow(b, 3) / 27 - b * c / 3 *  + d;
-            double D = q * q / 4 + Math.Pow(p, 3) / 27;
+            double q = 2 * b * b * b / 27 - b * c / 3  + d;
+            double D = q * q / 4 + p * p * p / 27;
             if(Math.Abs(D) < eps)
             {
                 alpha = CubeRoot(-q / 2);
@@ -41,9 +41,9 @@ namespace Maths.LinearAlgebra
                 {
                     alpha = CubeRoot(-q / 2 + Math.Sqrt(D));
                     betta = CubeRoot(-q / 2 - Math.Sqrt(D));
-                    x[0] = new Complex(alpha + betta, 0);
-                    x[1] = new Complex(-(alpha + betta) / 2, Math.Sqrt(3)*(alpha - betta)/2);
-                    x[2] = new Complex(x[1].Real, -x[1].Imaginary);
+                    x.Add(new Complex(alpha + betta, 0));
+                    x.Add(new Complex(-(alpha + betta) / 2, Math.Sqrt(3)*(alpha - betta)/2));
+                    x.Add(new Complex(x[1].Real, -x[1].Imaginary));
                 }
                 else
                 {
@@ -51,9 +51,9 @@ namespace Maths.LinearAlgebra
                     double r = buf.Magnitude;
                     r = CubeRoot(r);
                     double phi = buf.Phase;
-                    x[0] = new Complex(2 * r * Math.Cos(phi / 3), 0);
-                    x[1] = new Complex(2 * r * Math.Cos((phi + 2 * Math.PI) / 3), 0);
-                    x[2] = new Complex(2 * r * Math.Cos((phi + 4 * Math.PI) / 3), 0);
+                    x.Add(new Complex(2 * r * Math.Cos(phi / 3), 0));
+                    x.Add(new Complex(2 * r * Math.Cos((phi + 2 * Math.PI) / 3), 0));
+                    x.Add(new Complex(2 * r * Math.Cos((phi + 4 * Math.PI) / 3), 0));
                 }
             }
             for (int i = 0; i < 3; i++)
@@ -64,8 +64,8 @@ namespace Maths.LinearAlgebra
         private double CubeRoot(double x)
         {
             if (x >= 0)
-                return Math.Pow(x, (1 / 3));
-            return -Math.Pow(-x, (1 / 3));
+                return Math.Pow(x, 1.0 / 3);
+            return -Math.Pow(-x, 1.0 / 3);
         }
 
         private void Normalize()
