@@ -5,40 +5,45 @@ using System.Text;
 
 namespace Maths.LinearAlgebra
 {
-    public class EigenDecomp
+    public class Eigendecomp
     {
-        public List<Complex> Eigenval { get; private set; }
-        public List<Vector> Eigenvect { get; private set; }
+        public List<double> Eigenvalues { get; private set; }
+        public List<Vector> Eigenvectors { get; private set; }
 
-        public EigenDecomp(List<Complex> values, List<Vector> vectors)
+        public Eigendecomp()
         {
-            Eigenval = values;
-            Eigenvect = vectors;
+            Eigenvalues = new List<double>();
+            Eigenvectors = new List<Vector>();
         }
 
-        public static EigenDecomp Compute(Matrix matrix, double eps)
+        public void Compute(Matrix matrix, double eps)
         {
-            List<Complex> eigenvalues = ComputeEigenvalues(matrix, eps);
-            List<Vector> eigenvectors = new List<Vector>();
-
-            return new EigenDecomp(eigenvalues, eigenvectors);
+            Eigenvalues = ComputeEigenvalues(matrix, eps);
+            Eigenvectors = new List<Vector>();
         }
 
-        private static List<Complex> ComputeEigenvalues(Matrix matrix, double eps)
+        private List<double> ComputeEigenvalues(Matrix matrix, double eps)
         {
             double a = -1;
-            double b = matrix[0,0] + matrix[1,1] + matrix[2,2];
-            double c = matrix[1,0] * matrix[0,1] + matrix[0,2] * matrix[2,0] + matrix[2,1] * matrix[1,2] -
+            double b = matrix[0, 0] + matrix[1, 1] + matrix[2, 2];
+            double c = matrix[1, 0] * matrix[0, 1] + matrix[0, 2] * matrix[2, 0] + matrix[2, 1] * matrix[1, 2] -
                  matrix[0, 0] * matrix[1, 1] - matrix[0, 0] * matrix[2, 2] - matrix[1, 1] * matrix[2, 2];
             double d = matrix[0, 0] * matrix[1, 1] * matrix[2, 2] + matrix[1, 0] * matrix[2, 1] * matrix[0, 2] +
                 matrix[2, 0] * matrix[0, 1] * matrix[1, 2] - matrix[0, 0] * matrix[1, 2] * matrix[2, 1] -
                 matrix[1, 0] * matrix[0, 1] * matrix[2, 2] - matrix[2, 0] * matrix[1, 1] * matrix[0, 2];
 
             CubicEquation equation = new CubicEquation(a, b, c, d);
-            List<Complex> eigenvalues = equation.CardanosMethod(eps);
+            List<double> eigenvalues = ToReal(equation.CardanosMethod(eps));
             eigenvalues.Sort();
             return eigenvalues;
         }
 
+        private List<double> ToReal(List<Complex> list)
+        {
+            List<double> result = new List<double>();
+            for (int i = 0; i < list.Count; i++)
+                result.Add(list[i].Real);
+            return result;
+        }
     }
 }
