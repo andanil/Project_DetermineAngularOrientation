@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Maths.LinearAlgebra
@@ -8,10 +9,11 @@ namespace Maths.LinearAlgebra
     {
         private double[] values;
         private bool transpose;
+        private int n = 3;
 
         public Vector()
         {
-            values = new double[3];
+            values = new double[n];
             transpose = false;
         }
 
@@ -30,7 +32,7 @@ namespace Maths.LinearAlgebra
         public double Nrm(int rowStart)
         {
             double s = 0;
-            for (var i = rowStart; i < 3; i++)
+            for (var i = rowStart; i < n; i++)
             {
                 s += this[i] * this[i];
             }
@@ -45,7 +47,9 @@ namespace Maths.LinearAlgebra
 
         public static Vector ZeroVector()
         {
-            return new Vector(new double[] { 0, 0, 0 });
+            Vector vec = new Vector();
+            vec.values = Enumerable.Repeat<double>(0, vec.n).ToArray();
+            return vec;
         }
     }
 }

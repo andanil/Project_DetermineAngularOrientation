@@ -7,10 +7,11 @@ namespace Maths.LinearAlgebra
     public class Matrix
     {
         private double[,] values;
+        private int n = 3;
 
         public Matrix()
         {
-            values = new double[3,3];
+            values = new double[n, n];
         }
 
         public Matrix(double [,] value)
@@ -27,14 +28,14 @@ namespace Maths.LinearAlgebra
         public Matrix Copy()
         {
             Matrix copy = new Matrix();
-            for (int i = 0; i < 3; i++)
-                for(int j = 0; j < 3; j++)
+            for (int i = 0; i < n; i++)
+                for(int j = 0; j < n; j++)
                 copy.values[i, j] = values[i, j];
             return copy;
         }
 
 
-        public static Matrix SetRandomValues()
+        public static Matrix RandomMatrix3()
         {
             Matrix result = new Matrix();
             Random rnd = new Random();
@@ -47,9 +48,9 @@ namespace Maths.LinearAlgebra
         public Matrix Transpose()
         {
             Matrix trans = new Matrix();
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < n; j++)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < n; i++)
                 {
                     trans[j, i] = this[i, j];
                 }
@@ -59,20 +60,23 @@ namespace Maths.LinearAlgebra
 
         public static Matrix ZeroMatrix()
         {
-            return new Matrix(new double[,]
-                { 
-                  { 0, 0, 0 },
-                  { 0, 0, 0 },
-                  { 0, 0, 0 }});
+            Matrix matrix = new Matrix();
+            for (int i = 0; i < matrix.n; i++)
+                for (int j = 0; j < matrix.n; j++)
+                    matrix[i, j] = 0;
+            return matrix;
         }
 
         public static Matrix IdentityMatrix()
         {
-            return new Matrix(new double[,]
-                {
-                  { 1, 0, 0 },
-                  { 0, 1, 0 },
-                  { 0, 0, 1 }});
+            Matrix matrix = new Matrix();
+            for (int i = 0; i < matrix.n; i++)
+                for (int j = 0; j < matrix.n; j++)
+                    if(i == j)
+                        matrix[i, j] = 1;
+                    else
+                        matrix[i, j] = 0;
+            return matrix;
         }
 
         public static Matrix operator *(Matrix m1, Matrix m2)
@@ -100,6 +104,15 @@ namespace Maths.LinearAlgebra
                 for (int j = 0; j < 3; j++)
                     r[i] += m[j, i] * v[j];
             r.Transpose();
+            return r;
+        }
+
+        public static Matrix operator *(double constant, Matrix m)
+        {
+            Matrix r = m.Copy();
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    r[i,j] = constant * m[i,j];
             return r;
         }
     }
