@@ -23,7 +23,7 @@ namespace Maths.LinearAlgebra
         {
             double alpha;
             double betta;
-            List<Complex> x = new List<Complex>(3);
+            List<Complex> x = new List<Complex>();
             Normalize();
             double p = - b * b / 3 + c;
             double q = 2 * Math.Pow(b, 3) / 27 - b * c / 3 *  + d;
@@ -31,9 +31,9 @@ namespace Maths.LinearAlgebra
             if(Math.Abs(D) < eps)
             {
                 alpha = CubeRoot(-q / 2);
-                x[0] = new Complex(2 * alpha, 0);
-                x[1] = new Complex(-alpha, 0);
-                x[2] = new Complex(-alpha, 0);
+                x.Add(new Complex(2 * alpha, 0));
+                x.Add(new Complex(-alpha, 0));
+                x.Add(new Complex(-alpha, 0));
             }
             else
             {

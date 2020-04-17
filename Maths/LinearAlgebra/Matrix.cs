@@ -16,7 +16,7 @@ namespace Maths.LinearAlgebra
 
         public Matrix(double [,] value)
         {
-            value.CopyTo(values, 0);
+            values = value;
         }
 
         public double this[int i, int j]
@@ -58,6 +58,22 @@ namespace Maths.LinearAlgebra
             return trans;
         }
 
+        public Vector GetRow(int index)
+        {
+            Vector row = new Vector();
+            for (int i = 0; i < n; i++)
+                row[i] = this[index, i];
+            return row;
+        }
+
+        public Vector GetColumn(int index)
+        {
+            Vector column = new Vector();
+            for (int i = 0; i < n; i++)
+                column[i] = this[i, index];
+            return column;
+        }
+
         public static Matrix ZeroMatrix()
         {
             Matrix matrix = new Matrix();
@@ -81,39 +97,39 @@ namespace Maths.LinearAlgebra
 
         public static Matrix operator *(Matrix m1, Matrix m2)
         {
-            Matrix r = Matrix.ZeroMatrix();
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    for (int k = 0; k < 3; k++)
-                        r[i, j] += m1[i, k] * m2[k, j];
-            return r;
+            Matrix result = ZeroMatrix();
+            for (int i = 0; i < m1.n; i++)
+                for (int j = 0; j < m1.n; j++)
+                    for (int k = 0; k < m1.n; k++)
+                        result[i, j] += m1[i, k] * m2[k, j];
+            return result;
         }
 
         public static Vector operator *(Matrix m, Vector v)
         {
-            Vector r = Vector.ZeroVector();
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    r[i] += m[i, j] * v[j];
-            return r;
+            Vector result = Vector.ZeroVector();
+            for (int i = 0; i < m.n; i++)
+                for (int j = 0; j < m.n; j++)
+                    result[i] += m[i, j] * v[j];
+            return result;
         }
         public static Vector operator *(Vector v, Matrix m)
         {
-            Vector r = Vector.ZeroVector();
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    r[i] += m[j, i] * v[j];
-            r.Transpose();
-            return r;
+            Vector result = Vector.ZeroVector();
+            for (int i = 0; i < m.n; i++)
+                for (int j = 0; j < m.n; j++)
+                    result[i] += m[j, i] * v[j];
+            result.Transpose();
+            return result;
         }
 
         public static Matrix operator *(double constant, Matrix m)
         {
-            Matrix r = m.Copy();
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    r[i,j] = constant * m[i,j];
-            return r;
+            Matrix result = m.Copy();
+            for (int i = 0; i < m.n; i++)
+                for (int j = 0; j < m.n; j++)
+                    result[i,j] = constant * m[i,j];
+            return result;
         }
     }
 }
