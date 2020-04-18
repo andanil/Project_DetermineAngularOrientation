@@ -17,25 +17,35 @@ namespace Maths.LinearAlgebra
             U = new Matrix();
         }
 
-        public void Compute(Matrix matrix, double eps)
+        public void Compute(Matrix matrix, int n, double eps)
         {
             Matrix g = matrix.Transpose() * matrix;
             Eigendecomp eigendecomp = MatrixOperations.Eigendecomposition(g, eps);
             SortEigen(eigendecomp);
             Vector sigma = new Vector();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < n; i++)
                 sigma[i] = Math.Sqrt(Math.Abs(eigendecomp.Eigenvalues[i]));
             V = new Matrix();
             S = Matrix.ZeroMatrix();
             U = new Matrix(eigendecomp.Eigenvectors);
             List<Vector> v = new List<Vector>();
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < n; i++)
             {
                 S[i, i] = sigma[i];
                 v.Add(matrix * U.GetColumn(i)/sigma[i]);
             }
             V = new Matrix(v);
 
+        }
+
+        public bool Check(Matrix matrix, int n, double eps)
+        {
+            Matrix result = V * S * U.Transpose();
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    if (Math.Abs(result[i, j] - matrix[i, j]) > eps)
+                        return false;
+            return true;
         }
 
         private void SortEigen(Eigendecomp eigendecomp)

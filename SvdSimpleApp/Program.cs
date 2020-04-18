@@ -11,10 +11,11 @@ namespace SvdSimpleApp
             double[,] a1 = new double[,] { {0.53637763463723365, 0.028471325537409321, 0.66987587449600727 },
               { 0.96396422198226872, 0.82154775123183976, 0.84203247765173783 },
               { 0.30928549371160824, 0.36416072042852676, 0.19277459904215047 } };
-           // Matrix a = Matrix.RandomMatrix3();
-            SVD svd = MatrixOperations.SVD(new Matrix(a1), 1e-14);
-
-            LibraryMethod(a1);
+            Matrix a = Matrix.RandomMatrix3();
+           // Matrix a = new Matrix(a1);
+            SVD svd = MatrixOperations.SVD(a, 3, 1e-15);
+            bool result = svd.Check(a, 3, 1e-14);
+            LibraryMethod(a.ToArray());
 
             Console.ReadKey();
         }
