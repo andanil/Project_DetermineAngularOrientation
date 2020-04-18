@@ -19,6 +19,14 @@ namespace Maths.LinearAlgebra
             values = value;
         }
 
+        public Matrix(List<Vector> vectors)
+        {
+            values = new double[n, n];
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    values[i, j] = vectors[j][i];
+        }
+
         public double this[int i, int j]
         {
             get { return values[i, j]; }
@@ -34,6 +42,10 @@ namespace Maths.LinearAlgebra
             return copy;
         }
 
+        public double[,] ToArray()
+        {
+            return values;
+        }
 
         public static Matrix RandomMatrix3()
         {

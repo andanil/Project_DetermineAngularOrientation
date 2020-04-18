@@ -13,5 +13,12 @@ namespace Maths.LinearAlgebra
             result.Compute(matrix, eps);
             return result;
         }
+
+        public static SVD SVD(Matrix matrix, double eps)
+        {
+            SVD result = new SVD();
+            result.Compute(matrix, eps);
+            return result;
+        }
     }
 }

@@ -54,6 +54,10 @@ namespace Maths.LinearAlgebra
                 eigenvectors[1] = ComputeSecondEigenvector(matrix, eigenvalues[1], eigenvectors[2]);
                 eigenvectors[0] = VectorOperations.Cross(eigenvectors[2], eigenvectors[1]);
             }
+
+            /*for(int i = 0; i < eigenvalues.Count; i++)
+                eigenvectors[i] = ComputeFirstEigenvector(matrix, eigenvalues[i]);*/
+
             return eigenvectors;
         }
 
@@ -80,31 +84,37 @@ namespace Maths.LinearAlgebra
         {
             Vector u, v, eigenvector;
             VectorOperations.OrthogonalComplement(firstEigenvector, out v, out u);
-            Vector au = matrix * u;
-            Vector av = matrix * v;
-            double[] m = new double[] {u*au - eigenvalue, u*au, v*av - eigenvalue }; //m00, m01, m11
-            double[] absM = new double[3];
-            for (int i = 0; i < 3; i++)
-                absM[i] = Math.Abs(m[i]);
 
-            if(absM[0] >= absM[2])
+            Matrix a = matrix.Copy();
+            for (int i = 0; i < 3; i++)
+                a[i, i] -= eigenvalue;
+
+            Vector ua = u * a;
+            Vector va = v * a;
+            double[,] m = new double[,] { { u * ua, v * ua }, { u * va, v * va} };
+            double[,] absM = new double[2,2];
+            for (int i = 0; i < 2; i++)
+                for(int j = 0; j < 2; j++)
+                    absM[i,j] = Math.Abs(m[i,j]);
+
+            if(absM[0,0] >= absM[1,1])
             {
-                double maxAbs = Math.Max(absM[0], absM[1]);
+                double maxAbs = Math.Max(absM[0,0], absM[0,1]);
                 if(maxAbs > 0)
                 {
-                    if(absM[0] >= absM[1])
+                    if(absM[0,0] >= absM[0,1])
                     {
-                        m[1] /= m[0];
-                        m[0] = 1 / Math.Sqrt(1 + m[1] * m[1]);
-                        m[1] *= m[0];
+                        m[0, 1] /= m[0, 0];
+                        m[0, 0] = 1 / Math.Sqrt(1 + m[0, 1] * m[0, 1]);
+                        m[0, 1] *= m[0, 0];
                     }
                     else
                     {
-                        m[0] /= m[1];
-                        m[1] = 1 / Math.Sqrt(1 + m[0] * m[0]);
-                        m[0] *= m[1];
+                        m[0, 0] /= m[0, 1];
+                        m[0, 1] = 1 / Math.Sqrt(1 + m[0, 0] * m[0, 0]);
+                        m[0, 0] *= m[0, 1];
                     }
-                    eigenvector = m[1] * u - m[0] * v;
+                    eigenvector = m[0,1] * u - m[0,0] * v;
                 }
                 else
                 {
@@ -113,28 +123,29 @@ namespace Maths.LinearAlgebra
             }
             else
             {
-                double maxAbs = Math.Max(absM[2], absM[1]);
+                double maxAbs = Math.Max(absM[1,1], absM[1, 0]);
                 if (maxAbs > 0)
                 {
-                    if (absM[2] >= absM[1])
+                    if (absM[1, 1] >= absM[1,0])
                     {
-                        m[1] /= m[2];
-                        m[2] = 1 / Math.Sqrt(1 + m[1] * m[1]);
-                        m[1] *= m[2];
+                        m[1, 0] /= m[1, 1];
+                        m[1, 1] = 1 / Math.Sqrt(1 + m[1, 0] * m[1, 0]);
+                        m[1, 0] *= m[1, 1];
                     }
                     else
                     {
-                        m[2] /= m[1];
-                        m[1] = 1 / Math.Sqrt(1 + m[2] * m[2]);
-                        m[0] *= m[1];
+                        m[1, 1] /= m[1, 0];
+                        m[1, 0] = 1 / Math.Sqrt(1 + m[1, 1] * m[1, 1]);
+                        m[1, 1] *= m[1, 0];
                     }
-                    eigenvector = m[2] * u - m[1] * v;
+                    eigenvector = m[1, 1] * u - m[1, 0] * v;
                 }
                 else
                 {
                     eigenvector = u;
                 }
             }
+            
             return eigenvector;
         }
 
