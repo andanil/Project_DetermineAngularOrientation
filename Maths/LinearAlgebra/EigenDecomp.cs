@@ -55,9 +55,6 @@ namespace Maths.LinearAlgebra
                 eigenvectors[0] = VectorOperations.Cross(eigenvectors[2], eigenvectors[1]);
             }
 
-            /*for(int i = 0; i < eigenvalues.Count; i++)
-                eigenvectors[i] = ComputeFirstEigenvector(matrix, eigenvalues[i]);*/
-
             return eigenvectors;
         }
 

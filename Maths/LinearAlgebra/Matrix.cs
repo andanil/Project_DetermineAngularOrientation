@@ -33,6 +33,21 @@ namespace Maths.LinearAlgebra
             set { values[i, j] = value; }
         }
 
+        public double InfinityNorm()
+        {
+            double norm = 0;
+            double sum;
+            for(int i = 0; i < n; i++)
+            {
+                sum = 0;
+                for (int j = 0; j < n; j++)
+                    sum += values[i, j];
+                if (sum > norm)
+                    norm = sum;
+            }
+            return norm;
+        }
+
         public Matrix Copy()
         {
             Matrix copy = new Matrix();
@@ -64,7 +79,7 @@ namespace Maths.LinearAlgebra
             {
                 for (int i = 0; i < n; i++)
                 {
-                    trans[j, i] = this[i, j];
+                    trans[j, i] = values[i, j];
                 }
             }
             return trans;
@@ -74,7 +89,7 @@ namespace Maths.LinearAlgebra
         {
             Vector row = new Vector();
             for (int i = 0; i < n; i++)
-                row[i] = this[index, i];
+                row[i] = values[index, i];
             return row;
         }
 
@@ -82,7 +97,7 @@ namespace Maths.LinearAlgebra
         {
             Vector column = new Vector();
             for (int i = 0; i < n; i++)
-                column[i] = this[i, index];
+                column[i] = values[i, index];
             return column;
         }
 

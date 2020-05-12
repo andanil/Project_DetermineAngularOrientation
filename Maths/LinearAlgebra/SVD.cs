@@ -38,14 +38,10 @@ namespace Maths.LinearAlgebra
 
         }
 
-        public bool Check(Matrix matrix, int n, double eps)
+        public double Error(Matrix matrix, int n)
         {
             Matrix result = V * S * U.Transpose();
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    if (Math.Abs(result[i, j] - matrix[i, j]) > eps)
-                        return false;
-            return true;
+            return Math.Abs(matrix.InfinityNorm() - result.InfinityNorm());
         }
 
         private void SortEigen(Eigendecomp eigendecomp)
