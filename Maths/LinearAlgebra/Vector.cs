@@ -35,7 +35,7 @@ namespace Maths.LinearAlgebra
             set { values[i] = value; }
         }
 
-        public double Nrm()
+        public double Norm()
         {
             double s = 0;
             for (var i = 0; i < n; i++)

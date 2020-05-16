@@ -14,10 +14,10 @@ namespace Maths.LinearAlgebra
             return result;
         }
 
-        public static SVD SVD(Matrix matrix, int n, double eps)
+        public static SVD SVD(Matrix matrix, double eps)
         {
             SVD result = new SVD();
-            result.Compute(matrix, n, eps);
+            result.Compute(matrix, eps);
             return result;
         }
     }

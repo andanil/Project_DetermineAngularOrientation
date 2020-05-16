@@ -17,7 +17,7 @@ namespace SvdSimpleApp
             Console.WriteLine("Матрица A");
             PrintData(a.ToArray(), 3, 3);
 
-            SVD svd = MatrixOperations.SVD(a, 3, 1e-15);
+            SVD svd = MatrixOperations.SVD(a, 1e-15);
 
             Console.WriteLine("Матрица V");
             PrintData(svd.V.ToArray(), 3, 3);
@@ -26,7 +26,7 @@ namespace SvdSimpleApp
             Console.WriteLine("Матрица U");
             PrintData(svd.U.ToArray(), 3, 3);
 
-            double result = svd.Error(a, 3);
+            double result = svd.Error(a);
 
             Console.WriteLine();
             Console.WriteLine("Погрешность:" + result.ToString());

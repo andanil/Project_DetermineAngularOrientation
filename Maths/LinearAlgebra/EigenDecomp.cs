@@ -71,7 +71,7 @@ namespace Maths.LinearAlgebra
                 VectorOperations.Cross(rows[0], rows[2]), VectorOperations.Cross(rows[2], rows[1])};
             List<double> crossProdNrm = new List<double>();
             for (int i = 0; i < 3; i++)
-                crossProdNrm.Add(crossProd[i].Nrm());
+                crossProdNrm.Add(crossProd[i].Norm());
             int indexOfMax = crossProdNrm.IndexOf(crossProdNrm.Max());
 
             return crossProd[indexOfMax]/crossProdNrm[indexOfMax];

@@ -7,11 +7,12 @@ namespace Maths.LinearAlgebra
     public class Matrix
     {
         private double[,] values;
-        private int n = 3;
+
+        public int N { get; private set; } = 3;
 
         public Matrix()
         {
-            values = new double[n, n];
+            values = new double[N, N];
         }
 
         public Matrix(double [,] value)
@@ -21,9 +22,9 @@ namespace Maths.LinearAlgebra
 
         public Matrix(List<Vector> vectors)
         {
-            values = new double[n, n];
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
+            values = new double[N, N];
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
                     values[i, j] = vectors[j][i];
         }
 
@@ -37,10 +38,10 @@ namespace Maths.LinearAlgebra
         {
             double norm = 0;
             double sum;
-            for(int i = 0; i < n; i++)
+            for(int i = 0; i < N; i++)
             {
                 sum = 0;
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < N; j++)
                     sum += values[i, j];
                 if (sum > norm)
                     norm = sum;
@@ -51,8 +52,8 @@ namespace Maths.LinearAlgebra
         public Matrix Copy()
         {
             Matrix copy = new Matrix();
-            for (int i = 0; i < n; i++)
-                for(int j = 0; j < n; j++)
+            for (int i = 0; i < N; i++)
+                for(int j = 0; j < N; j++)
                 copy.values[i, j] = values[i, j];
             return copy;
         }
@@ -75,9 +76,9 @@ namespace Maths.LinearAlgebra
         public Matrix Transpose()
         {
             Matrix trans = new Matrix();
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < N; j++)
             {
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < N; i++)
                 {
                     trans[j, i] = values[i, j];
                 }
@@ -88,7 +89,7 @@ namespace Maths.LinearAlgebra
         public Vector GetRow(int index)
         {
             Vector row = new Vector();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < N; i++)
                 row[i] = values[index, i];
             return row;
         }
@@ -96,7 +97,7 @@ namespace Maths.LinearAlgebra
         public Vector GetColumn(int index)
         {
             Vector column = new Vector();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < N; i++)
                 column[i] = values[i, index];
             return column;
         }
@@ -104,8 +105,8 @@ namespace Maths.LinearAlgebra
         public static Matrix ZeroMatrix()
         {
             Matrix matrix = new Matrix();
-            for (int i = 0; i < matrix.n; i++)
-                for (int j = 0; j < matrix.n; j++)
+            for (int i = 0; i < matrix.N; i++)
+                for (int j = 0; j < matrix.N; j++)
                     matrix[i, j] = 0;
             return matrix;
         }
@@ -113,8 +114,8 @@ namespace Maths.LinearAlgebra
         public static Matrix IdentityMatrix()
         {
             Matrix matrix = new Matrix();
-            for (int i = 0; i < matrix.n; i++)
-                for (int j = 0; j < matrix.n; j++)
+            for (int i = 0; i < matrix.N; i++)
+                for (int j = 0; j < matrix.N; j++)
                     if(i == j)
                         matrix[i, j] = 1;
                     else
@@ -125,9 +126,9 @@ namespace Maths.LinearAlgebra
         public static Matrix operator *(Matrix m1, Matrix m2)
         {
             Matrix result = ZeroMatrix();
-            for (int i = 0; i < m1.n; i++)
-                for (int j = 0; j < m1.n; j++)
-                    for (int k = 0; k < m1.n; k++)
+            for (int i = 0; i < m1.N; i++)
+                for (int j = 0; j < m1.N; j++)
+                    for (int k = 0; k < m1.N; k++)
                         result[i, j] += m1[i, k] * m2[k, j];
             return result;
         }
@@ -135,16 +136,16 @@ namespace Maths.LinearAlgebra
         public static Vector operator *(Matrix m, Vector v)
         {
             Vector result = Vector.ZeroVector();
-            for (int i = 0; i < m.n; i++)
-                for (int j = 0; j < m.n; j++)
+            for (int i = 0; i < m.N; i++)
+                for (int j = 0; j < m.N; j++)
                     result[i] += m[i, j] * v[j];
             return result;
         }
         public static Vector operator *(Vector v, Matrix m)
         {
             Vector result = Vector.ZeroVector();
-            for (int i = 0; i < m.n; i++)
-                for (int j = 0; j < m.n; j++)
+            for (int i = 0; i < m.N; i++)
+                for (int j = 0; j < m.N; j++)
                     result[i] += m[j, i] * v[j];
             result.Transpose();
             return result;
@@ -153,8 +154,8 @@ namespace Maths.LinearAlgebra
         public static Matrix operator *(double constant, Matrix m)
         {
             Matrix result = m.Copy();
-            for (int i = 0; i < m.n; i++)
-                for (int j = 0; j < m.n; j++)
+            for (int i = 0; i < m.N; i++)
+                for (int j = 0; j < m.N; j++)
                     result[i,j] = constant * m[i,j];
             return result;
         }

@@ -17,19 +17,19 @@ namespace Maths.LinearAlgebra
             U = new Matrix();
         }
 
-        public void Compute(Matrix matrix, int n, double eps)
+        public void Compute(Matrix matrix, double eps)
         {
             Matrix g = matrix.Transpose() * matrix;
             Eigendecomp eigendecomp = MatrixOperations.Eigendecomposition(g, eps);
             SortEigen(eigendecomp);
             Vector sigma = new Vector();
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < matrix.N; i++)
                 sigma[i] = Math.Sqrt(Math.Abs(eigendecomp.Eigenvalues[i]));
             V = new Matrix();
             S = Matrix.ZeroMatrix();
             U = new Matrix(eigendecomp.Eigenvectors);
             List<Vector> v = new List<Vector>();
-            for(int i = 0; i < n; i++)
+            for(int i = 0; i < matrix.N; i++)
             {
                 S[i, i] = sigma[i];
                 v.Add(matrix * U.GetColumn(i)/sigma[i]);
@@ -38,7 +38,7 @@ namespace Maths.LinearAlgebra
 
         }
 
-        public double Error(Matrix matrix, int n)
+        public double Error(Matrix matrix)
         {
             Matrix result = V * S * U.Transpose();
             return Math.Abs(matrix.InfinityNorm() - result.InfinityNorm());
