@@ -40,8 +40,9 @@ namespace Maths.LinearAlgebra
 
         public double Error(Matrix matrix)
         {
-            Matrix result = V * S * U.Transpose();
-            return Math.Abs(matrix.InfinityNorm() - result.InfinityNorm());
+            Matrix matrix1 = V * S * U.Transpose();
+            Matrix result = matrix - matrix1;
+            return result.InfinityNorm();
         }
 
         private void SortEigen(Eigendecomp eigendecomp)

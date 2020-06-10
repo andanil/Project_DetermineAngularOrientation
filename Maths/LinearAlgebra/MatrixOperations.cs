@@ -20,5 +20,16 @@ namespace Maths.LinearAlgebra
             result.Compute(matrix, eps);
             return result;
         }
+
+        public static Matrix RotationMatrix(double phi, double theta, double psi)
+        {
+            double[,] values = new double[,] {{ Math.Cos(phi)* Math.Cos(psi)- Math.Sin(phi)* Math.Sin(psi)* Math.Cos(theta),
+                Math.Cos(phi) * Math.Sin(psi) + Math.Sin(phi) * Math.Cos(psi) * Math.Cos(theta), Math.Sin(phi) * Math.Sin(theta) },
+            { -Math.Sin(phi)* Math.Cos(psi)- Math.Cos(phi)* Math.Sin(psi)* Math.Cos(theta),
+                -Math.Sin(phi) * Math.Sin(psi) + Math.Cos(phi) * Math.Cos(psi) * Math.Cos(theta), Math.Cos(phi) * Math.Sin(theta) },
+            { Math.Sin(theta) * Math.Sin(psi), -Math.Sin(theta) * Math.Cos(psi), Math.Cos(theta) } };
+
+            return new Matrix(values);
+        }
     }
 }

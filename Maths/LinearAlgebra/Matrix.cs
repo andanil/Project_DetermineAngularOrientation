@@ -42,7 +42,7 @@ namespace Maths.LinearAlgebra
             {
                 sum = 0;
                 for (int j = 0; j < N; j++)
-                    sum += values[i, j];
+                    sum += Math.Abs(values[i, j]);
                 if (sum > norm)
                     norm = sum;
             }
@@ -157,6 +157,15 @@ namespace Maths.LinearAlgebra
             for (int i = 0; i < m.N; i++)
                 for (int j = 0; j < m.N; j++)
                     result[i,j] = constant * m[i,j];
+            return result;
+        }
+
+        public static Matrix operator -(Matrix m1, Matrix m2)
+        {
+            Matrix result = ZeroMatrix();
+            for (int i = 0; i < m1.N; i++)
+                for (int j = 0; j < m1.N; j++)
+                        result[i, j] = m1[i, j] - m2[i, j];
             return result;
         }
     }
